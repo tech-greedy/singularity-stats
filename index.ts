@@ -78,7 +78,7 @@ await new Promise((resolve, reject) => {
 })
 
 console.log(`Total size of QAP with deals: ${totalSize} bytes`);
-console.log(` This is equivalent to ${Number(totalSize)/ 1024 / 1024 / 1024 / 1024 / 1024} EiB`);
+console.log(` This is equivalent to ${Number(totalSize)/ 1024 / 1024 / 1024 / 1024 / 1024 / 1024} EiB`);
 
 console.log('Closing Singularity DB...')
 await singularityClient.end()
