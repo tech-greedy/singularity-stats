@@ -44,6 +44,7 @@ const deals = stateMarketDealsClient.query(new QueryStream(
     [],
   {
     rowMode: 'array',
+    batchSize: 100_000,
   }
 ))
 
@@ -53,7 +54,7 @@ let count: number = 0;
 deals.on('data', (row: any[]) => {
   const cid = row[0];
   count++;
-  if (count % 1000 === 0) {
+  if (count % 100_000 === 0) {
     console.log(`Processed ${count} pieces with deals.`);
   }
   if (pieceMap.has(cid)) {
