@@ -38,8 +38,9 @@ for (const row of result.rows) {
 }
 
 // Compare with all pieces with deals in StateMarketDeals
+console.log('Querying StateMarketDeals DB... for all deals')
 const deals = stateMarketDealsClient.query(new QueryStream(
-  'select piece_cid from current_state where sector_start_epoch > 0',
+  'select piece_cid from current_state',
     [],
   {
     rowMode: 'array',
@@ -51,13 +52,13 @@ let count: number = 0;
 
 deals.on('data', (row: any[]) => {
   const cid = row[0];
+  count++;
+  if (count % 1000 === 0) {
+    console.log(`Processed ${count} pieces with deals.`);
+  }
   if (pieceMap.has(cid)) {
     const size = pieceMap.get(cid)!;
     totalSize += BigInt(size);
-    count++;
-    if (count % 100_000 === 0) {
-      console.log(`Processed ${count} pieces with deals.`);
-    }
   }
 })
 
