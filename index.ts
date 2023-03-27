@@ -40,7 +40,7 @@ for (const row of result.rows) {
 // Compare with all pieces with deals in StateMarketDeals
 console.log('Querying StateMarketDeals DB... for all deals')
 const deals = stateMarketDealsClient.query(new QueryStream(
-  'select piece_cid from current_state',
+  'select piece_cid, verified_deal, sector_start_epoch from current_state',
     [],
   {
     rowMode: 'array',
@@ -53,13 +53,22 @@ let count: number = 0;
 
 deals.on('data', (row: any[]) => {
   const cid = row[0];
+  const verified = row[1];
+  const sectorStartEpoch = row[2];
   count++;
   if (count % 100_000 === 0) {
     console.log(`Processed ${count} pieces with deals.`);
   }
+  if (sectorStartEpoch < 0) {
+    return;
+  }
   if (pieceMap.has(cid)) {
-    const size = pieceMap.get(cid)!;
-    totalSize += BigInt(size);
+    let size = pieceMap.get(cid)!;
+    if (verified) {
+      totalSize += BigInt(size) * 10n;
+    } else {
+      totalSize += BigInt(size);
+    }
   }
 })
 
@@ -68,7 +77,8 @@ await new Promise((resolve, reject) => {
     deals.on('end', resolve)
 })
 
-console.log(`Total size of pieces with deals: ${totalSize} bytes`);
+console.log(`Total size of QAP with deals: ${totalSize} bytes`);
+console.log(` This is equivalent to ${Number(totalSize)/ 1024 / 1024 / 1024 / 1024 / 1024} EiB`);
 
 console.log('Closing Singularity DB...')
 await singularityClient.end()
