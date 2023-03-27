@@ -1,0 +1,39 @@
+{
+  "name": "@techgreedy/singularity-stats",
+  "version": "0.0.1",
+  "description": "Get total status from database",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tech-greedy/singularity-stats.git"
+  },
+  "type": "module",
+  "keywords": [
+    "filecoin",
+    "singularity",
+    "metrics"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tech-greedy/singularity-stats/issues"
+  },
+  "homepage": "https://github.com/tech-greedy/singularity-stats",
+  "author": "",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/node": "^18.15.10",
+    "@types/pg": "^8.6.6",
+    "@types/typescript": "^2.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "pg": "^8.10.0",
+    "pg-query-stream": "^4.4.0"
+  }
+}
